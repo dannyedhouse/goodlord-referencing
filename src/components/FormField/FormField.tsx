@@ -1,8 +1,10 @@
 import { FormData, ValidFieldNames } from "../../types/types";
 import { FieldError, UseFormRegister } from "react-hook-form";
 import styles from "./FormField.module.css";
+import classNames from "classnames"; // Install with `npm install classnames`
 
 export type FormFieldProps = {
+  className?: string;
   type: string;
   id: ValidFieldNames;
   name: ValidFieldNames;
@@ -15,6 +17,7 @@ export type FormFieldProps = {
 };
 
 export default function FormField({
+  className,
   type,
   id,
   name,
@@ -35,7 +38,7 @@ export default function FormField({
       {type === "select" ? (
         <select
           id={id}
-          className={error && touched ? "input-error" : ""}
+          className={classNames(className, { "input-error": error && touched })}
           {...register(name)}
         >
           {options?.map((option, index) => (
@@ -48,7 +51,7 @@ export default function FormField({
         <input
           required
           id={id}
-          className={error && touched ? "input-error" : ""}
+          className={classNames(className, { "input-error": error && touched })}
           type={type}
           {...register(name)}
         />

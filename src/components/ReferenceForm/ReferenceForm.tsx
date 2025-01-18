@@ -10,7 +10,7 @@ import { FormData } from "../../types/types";
 export default function ReferenceForm() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState } = useForm<FormData>({
+  const { register, handleSubmit, formState, reset } = useForm<FormData>({
     resolver: zodResolver(ReferenceFormSchema),
     mode: "onTouched",
   });
@@ -19,6 +19,7 @@ export default function ReferenceForm() {
 
   function onSubmit() {
     setShowSuccess(true);
+    reset();
   }
 
   return showSuccess ? (
@@ -32,6 +33,7 @@ export default function ReferenceForm() {
         <div className={styles.formSection}>
           <b>Personal</b>
           <FormField
+            className="full-width"
             type="text"
             id="first_name"
             name="first_name"
@@ -42,6 +44,7 @@ export default function ReferenceForm() {
             touched={touchedFields.first_name}
           />
           <FormField
+            className="full-width"
             type="text"
             id="last_name"
             name="last_name"
@@ -52,6 +55,7 @@ export default function ReferenceForm() {
             touched={touchedFields.last_name}
           />
           <FormField
+            className="full-width"
             type="text"
             id="current_address"
             name="current_address"
@@ -66,6 +70,7 @@ export default function ReferenceForm() {
         <div className={styles.formSection}>
           <b>Employer</b>
           <FormField
+            className="full-width"
             type="text"
             id="employer.0.name"
             name="employer.0.name"
@@ -75,31 +80,36 @@ export default function ReferenceForm() {
             error={errors.employer?.[0]?.name}
             touched={touchedFields.employer?.[0].name}
           />
-          <FormField
-            type="date"
-            id="employer.0.start_date"
-            name="employer.0.start_date"
-            labelText="Employment start date"
-            required
-            register={register}
-            error={errors.employer?.[0]?.start_date}
-            touched={touchedFields.employer?.[0].start_date}
-          />
-          <FormField
-            type="date"
-            id="employer.0.end_date"
-            name="employer.0.end_date"
-            labelText="Employment end date"
-            register={register}
-            error={errors.employer?.[0]?.end_date}
-            touched={touchedFields.employer?.[0].end_date}
-          />
+
+          <div className={styles.inputGroup}>
+            <FormField
+              className={styles.dateField}
+              type="date"
+              id="employer.0.start_date"
+              name="employer.0.start_date"
+              labelText="Employment start date"
+              required
+              register={register}
+              error={errors.employer?.[0]?.start_date}
+              touched={touchedFields.employer?.[0].start_date}
+            />
+            <FormField
+              className={styles.dateField}
+              type="date"
+              id="employer.0.end_date"
+              name="employer.0.end_date"
+              labelText="Employment end date"
+              register={register}
+              error={errors.employer?.[0]?.end_date}
+              touched={touchedFields.employer?.[0].end_date}
+            />
+          </div>
         </div>
 
         <div className={styles.formSection}>
           <b>Guarantor</b>
-          <label htmlFor="first_name">First Name*</label>
           <FormField
+            className="full-width"
             type="text"
             id="guarantor_name"
             name="guarantor_name"
@@ -109,6 +119,7 @@ export default function ReferenceForm() {
             touched={touchedFields.guarantor_name}
           />
           <FormField
+            className="full-width"
             type="text"
             id="guarantor_address"
             name="guarantor_address"
@@ -118,6 +129,7 @@ export default function ReferenceForm() {
             touched={touchedFields.guarantor_address}
           />
           <FormField
+            // className="half-width"
             type="select"
             id="guarantor_relation"
             name="guarantor_relation"

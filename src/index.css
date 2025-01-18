@@ -65,4 +65,16 @@ input {
   padding: 12px;
   border: 1px solid black;
   border-radius: 4px;
+  font-size: 18px;
+}
+
+input[type="date"] {
+  font-family: inherit;
+}
+
+select {
+  width: 25%;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 4px;
 }

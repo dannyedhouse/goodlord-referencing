@@ -27,3 +27,11 @@
   font-size: 12px;
   margin-top: 4px;
 }
+
+.full-width {
+  width: 70%;
+}
+
+.half-width {
+  width: 35%;
+}
