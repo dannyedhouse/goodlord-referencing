@@ -43,11 +43,26 @@ button:hover {
   background-color: #253543;
   border-color: #253543;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button:disabled {
+  background: #333 !important;
+  opacity: 0.5;
+  color: white;
+  cursor: not-allowed;
+  border-color: #253543;
+}
+button:disabled:hover {
+  background: #333 !important;
+  opacity: 0.3;
+  color: white;
+  border-color: #253543;
 }
 
 label {
   display: block;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 4px;
 }
