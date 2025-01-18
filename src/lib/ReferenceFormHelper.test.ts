@@ -23,11 +23,6 @@ describe("ReferenceFormHelper", () => {
       employer: [
         { name: "Goodlord", start_date: "20250101", end_date: "20250131" },
       ],
-      guarantor: {
-        name: "Bob",
-        address: "11 London Road",
-        relation: "Sibling",
-      },
     };
 
     const result = convertReferenceFormData(formData);

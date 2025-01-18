@@ -40,5 +40,5 @@ export type ValidFieldNames =
 export interface APIReferenceData {
   personal: Personal;
   employer: Employer[];
-  guarantor: Guarantor;
+  guarantor?: Guarantor;
 }

@@ -9,9 +9,9 @@ export const mockData: APIReferenceData = {
   employer: [
     { name: "Goodlord", start_date: "2024-01-01", end_date: "2024-01-31" },
   ],
-  guarantor: {
-    name: "Bob",
-    address: "123 London Street",
-    relation: "Sibling",
-  },
+  // guarantor: {
+  //   name: "Bob",
+  //   address: "123 London Street",
+  //   relation: "Sibling",
+  // },
 };

@@ -12,11 +12,11 @@ export const convertReferenceFormData = (data: FormData): APIReferenceData => {
       start_date: formatDate(employer.start_date),
       end_date: formatDate(employer.end_date),
     })),
-    guarantor: {
-      name: data.guarantor_name,
-      address: data.guarantor_address,
-      relation: "Sibling",
-    },
+    // guarantor: {
+    //   name: data.guarantor_name,
+    //   address: data.guarantor_address,
+    //   relation: data.guarantor_relation,
+    // },
   };
 };
 
