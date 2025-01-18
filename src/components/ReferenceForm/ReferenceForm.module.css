@@ -27,6 +27,15 @@
   flex-direction: column;
 }
 
+.error {
+  color: red;
+}
+
+.submitBtn {
+  display: inline-flex;
+  gap: 4px;
+}
+
 @media only screen and (min-width: 600px) {
   .referenceForm {
     width: 70%;

@@ -1,6 +1,6 @@
-import { FormData } from "../types/types";
+import { APIReferenceData, FormData } from "../types/types";
 
-export const convertReferenceFormData = (data: FormData) => {
+export const convertReferenceFormData = (data: FormData): APIReferenceData => {
   return {
     personal: {
       first_name: data.first_name,

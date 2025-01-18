@@ -7,10 +7,11 @@ import { ReferenceFormSchema } from "../../schema/ReferenceFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "../../types/types";
 import { convertReferenceFormData } from "../../lib/ReferenceFormHelper";
+import { submitReferenceData } from "../../api/submitReference";
+import { useMutation } from "react-query";
 
 export default function ReferenceForm() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
-
   const { register, handleSubmit, formState, reset } = useForm<FormData>({
     resolver: zodResolver(ReferenceFormSchema),
     mode: "onTouched",
@@ -18,12 +19,22 @@ export default function ReferenceForm() {
 
   const { isValid, errors, touchedFields } = formState;
 
-  function onSubmit(data: FormData) {
+  const { isLoading, mutate, isError } = useMutation(submitReferenceData, {
+    onSuccess: (data) => {
+      setShowSuccess(true);
+      console.log("Response", data);
+      reset();
+    },
+    onError: (error) => {
+      console.log("Error submitting reference form", error);
+      window.scrollTo(0, 0);
+    },
+  });
+
+  async function onSubmit(data: FormData) {
     const formattedData = convertReferenceFormData(data);
-    console.log(data);
-    console.log(formattedData);
-    setShowSuccess(true);
-    reset();
+    mutate(formattedData);
+    console.log("Formatted data: ", formattedData);
   }
 
   return showSuccess ? (
@@ -32,6 +43,12 @@ export default function ReferenceForm() {
     <div className="container">
       <h1>Goodlord Referencing Form</h1>
       <p>* indicates a required field</p>
+
+      {isError ? (
+        <div className={styles.error}>
+          <p>Sorry, an error occured. Please try again.</p>
+        </div>
+      ) : null}
 
       <form className={styles.referenceForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formSection}>
@@ -103,6 +120,7 @@ export default function ReferenceForm() {
               id="employer.0.end_date"
               name="employer.0.end_date"
               labelText="Employment end date"
+              required
               register={register}
               error={errors.employer?.[0]?.end_date}
               touched={touchedFields.employer?.[0].end_date}
@@ -118,6 +136,7 @@ export default function ReferenceForm() {
             id="guarantor_name"
             name="guarantor_name"
             labelText="Guarantor name"
+            required
             register={register}
             error={errors.guarantor_name}
             touched={touchedFields.guarantor_name}
@@ -128,16 +147,17 @@ export default function ReferenceForm() {
             id="guarantor_address"
             name="guarantor_address"
             labelText="Guarantor address"
+            required
             register={register}
             error={errors.guarantor_address}
             touched={touchedFields.guarantor_address}
           />
           <FormField
-            // className="half-width"
             type="select"
             id="guarantor_relation"
             name="guarantor_relation"
             labelText="Relationship to guarantor"
+            required
             register={register}
             error={errors.guarantor_relation}
             touched={touchedFields.guarantor_relation}
@@ -147,7 +167,12 @@ export default function ReferenceForm() {
 
         <div className={styles.cta}>
           <a href="/">Cancel</a>
-          <button type="submit" disabled={!isValid}>
+          <button
+            className={styles.submitBtn}
+            type="submit"
+            disabled={!isValid}
+          >
+            {isLoading && <span className="loader"></span>}
             Submit
           </button>
         </div>

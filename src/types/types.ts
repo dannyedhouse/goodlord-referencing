@@ -1,7 +1,19 @@
+export interface Personal {
+  first_name: string;
+  last_name: string;
+  current_address: string;
+}
+
 export interface Employer {
   name: string;
   start_date: string;
   end_date: string;
+}
+
+export interface Guarantor {
+  name: string;
+  address: string;
+  relation: string;
 }
 
 export interface FormData {
@@ -24,3 +36,9 @@ export type ValidFieldNames =
   | "guarantor_name"
   | "guarantor_address"
   | "guarantor_relation";
+
+export interface APIReferenceData {
+  personal: Personal;
+  employer: Employer[];
+  guarantor: Guarantor;
+}
