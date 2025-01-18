@@ -1,0 +1,21 @@
+.referenceForm {
+  border: 0;
+  padding: 20px;
+  margin: 0 auto;
+  width: 60%;
+}
+
+.formSection {
+  border: 1px solid black;
+  border-radius: 8px;
+  text-align: left;
+  margin-bottom: 40px;
+  padding: 10px;
+}
+
+.cta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 12px;
+}
