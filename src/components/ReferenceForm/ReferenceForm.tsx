@@ -17,7 +17,8 @@ export default function ReferenceForm() {
 
   const { isValid, errors, touchedFields } = formState;
 
-  function onSubmit() {
+  function onSubmit(data: FormData) {
+    console.log(data);
     setShowSuccess(true);
     reset();
   }
