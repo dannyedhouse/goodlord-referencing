@@ -2,6 +2,8 @@
 
 Using Vite + Node v20
 
+Deployed to Vercel - [goodlord-referencing.vercel.app](https://goodlord-referencing.vercel.app/)
+
 ## Installation
 
 - Install dependencies with `pnpm i`
@@ -19,4 +21,5 @@ Using Vite + Node v20
 - Add more tests, particularly around the API - perhaps mocking with MSW.
 - Improved validation
   - e.g., ensuring that the start date cannot be before the end date.
+- Add endpoint to env variables
 - Clarify if guarantor details should be submit/processed. This has been left commented to ensure it meets Task 1 requirements.
