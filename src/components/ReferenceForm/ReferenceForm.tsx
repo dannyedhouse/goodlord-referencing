@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { ReferenceFormSchema } from "../../schema/ReferenceFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "../../types/types";
+import { convertReferenceFormData } from "../../lib/ReferenceFormHelper";
 
 export default function ReferenceForm() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -18,7 +19,9 @@ export default function ReferenceForm() {
   const { isValid, errors, touchedFields } = formState;
 
   function onSubmit(data: FormData) {
+    const formattedData = convertReferenceFormData(data);
     console.log(data);
+    console.log(formattedData);
     setShowSuccess(true);
     reset();
   }

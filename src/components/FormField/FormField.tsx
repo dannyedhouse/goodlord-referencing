@@ -1,7 +1,7 @@
 import { FormData, ValidFieldNames } from "../../types/types";
 import { FieldError, UseFormRegister } from "react-hook-form";
 import styles from "./FormField.module.css";
-import classNames from "classnames"; // Install with `npm install classnames`
+import classNames from "classnames";
 
 export type FormFieldProps = {
   className?: string;

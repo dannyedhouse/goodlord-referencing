@@ -4,7 +4,7 @@ interface SuccessScreenProps {
 
 export default function SuccessScreen({ onClose }: SuccessScreenProps) {
   return (
-    <>
+    <div className="container">
       <h1>Thanks!</h1>
       <p>
         Your reference has been submitted. Your letting agent will be in contact
@@ -21,6 +21,6 @@ export default function SuccessScreen({ onClose }: SuccessScreenProps) {
         <br />
         <button onClick={onClose}>Go back</button>
       </section>
-    </>
+    </div>
   );
 }
