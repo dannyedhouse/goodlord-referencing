@@ -7,7 +7,7 @@ export interface Personal {
 export interface Employer {
   name: string;
   start_date: string;
-  end_date: string;
+  end_date?: string;
 }
 
 export interface Guarantor {

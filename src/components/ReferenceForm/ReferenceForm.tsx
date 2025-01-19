@@ -120,7 +120,6 @@ export default function ReferenceForm() {
               id="employer.0.end_date"
               name="employer.0.end_date"
               labelText="Employment end date"
-              required
               register={register}
               error={errors.employer?.[0]?.end_date}
               touched={touchedFields.employer?.[0].end_date}

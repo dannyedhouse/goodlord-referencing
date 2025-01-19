@@ -6,7 +6,7 @@ const employerSchema = z.object({
     .string()
     .min(2, "Employer name should be at least 2 characters")
     .max(50, "Employer name should be no more than 50 characters"),
-  start_date: z.string(),
+  start_date: z.string().min(2).max(50),
   end_date: z.string(),
 });
 

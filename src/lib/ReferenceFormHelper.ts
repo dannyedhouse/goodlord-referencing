@@ -10,7 +10,7 @@ export const convertReferenceFormData = (data: FormData): APIReferenceData => {
     employer: data.employer.map((employer) => ({
       name: employer.name,
       start_date: formatDate(employer.start_date),
-      end_date: formatDate(employer.end_date),
+      end_date: employer.end_date ? formatDate(employer.end_date) : undefined,
     })),
     // guarantor: {
     //   name: data.guarantor_name,
