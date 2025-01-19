@@ -24,13 +24,7 @@ export const ReferenceFormSchema: ZodType<FormData> = z.object({
     .min(2, "Address should be at least 2 characters")
     .max(50, "Address should be no more than 50 characters"),
   employer: z.array(employerSchema),
-  guarantor_name: z
-    .string()
-    .min(2, "Guarantor name should be at least 2 characters")
-    .max(50, "Guarantor name should be no more than 50 characters"),
-  guarantor_address: z
-    .string()
-    .min(2, "Guarantor address should be at least 2 characters")
-    .max(50, "Guarantor address should be no more than 50 characters"),
+  guarantor_name: z.string(),
+  guarantor_address: z.string(),
   guarantor_relation: z.string(),
 });

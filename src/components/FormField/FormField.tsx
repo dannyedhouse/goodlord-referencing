@@ -49,7 +49,7 @@ export default function FormField({
         </select>
       ) : (
         <input
-          required
+          required={required}
           id={id}
           className={classNames(className, { "input-error": error && touched })}
           type={type}

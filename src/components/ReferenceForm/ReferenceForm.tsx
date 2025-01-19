@@ -136,7 +136,6 @@ export default function ReferenceForm() {
             id="guarantor_name"
             name="guarantor_name"
             labelText="Guarantor name"
-            required
             register={register}
             error={errors.guarantor_name}
             touched={touchedFields.guarantor_name}
@@ -147,7 +146,6 @@ export default function ReferenceForm() {
             id="guarantor_address"
             name="guarantor_address"
             labelText="Guarantor address"
-            required
             register={register}
             error={errors.guarantor_address}
             touched={touchedFields.guarantor_address}
@@ -157,7 +155,6 @@ export default function ReferenceForm() {
             id="guarantor_relation"
             name="guarantor_relation"
             labelText="Relationship to guarantor"
-            required
             register={register}
             error={errors.guarantor_relation}
             touched={touchedFields.guarantor_relation}
