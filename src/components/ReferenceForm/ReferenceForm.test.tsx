@@ -20,7 +20,7 @@ function fillInReferenceForm() {
     target: { value: "Goodlord" },
   });
   fireEvent.change(screen.getByLabelText(/Employment start date/i), {
-    target: { value: "2025-01-01" },
+    target: { value: "2020-01-01" },
   });
   fireEvent.change(screen.getByLabelText(/Employment end date/i), {
     target: { value: "2025-01-31" },
@@ -98,6 +98,79 @@ describe("ReferenceForm", () => {
       expect(
         screen.getByText(/Sorry, an error occured. Please try again./i)
       ).toBeInTheDocument();
+    });
+  });
+
+  it("should add new employer when add button is clicked", async () => {
+    renderWithQueryClientProvider(<ReferenceForm />);
+
+    const addBtn = screen.getByRole("button", { name: "+ Add employer" });
+    await fireEvent.click(addBtn);
+    expect(screen.getAllByLabelText(/Employer name/).length).toBe(2);
+  });
+
+  it("should remove employer when remove button is clicked", async () => {
+    renderWithQueryClientProvider(<ReferenceForm />);
+
+    const addBtn = screen.getByRole("button", { name: "+ Add employer" });
+    await fireEvent.click(addBtn);
+    expect(screen.getAllByLabelText(/Employer name/).length).toBe(2);
+
+    const removeBtn = screen.getByRole("button", { name: "Remove" });
+    await fireEvent.click(removeBtn);
+    expect(screen.getAllByLabelText(/Employer name/).length).toBe(1);
+  });
+
+  it("should show a warning message and submission be disabled when employment date is less than 3 years", async () => {
+    renderWithQueryClientProvider(<ReferenceForm />);
+
+    // Change date to be not 3 years
+    fireEvent.change(screen.getByLabelText(/Employer name/i), {
+      target: { value: "Goodlord" },
+    });
+    fireEvent.change(screen.getByLabelText(/Employment start date/i), {
+      target: { value: "2025-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText(/Employment end date/i), {
+      target: { value: "2025-01-31" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Please add 3 years of employment history./)
+      ).toBeInTheDocument();
+    });
+
+    const submitButton = screen.getByText(/Submit/i);
+    expect(submitButton).toBeDisabled();
+
+    // Add 2nd row and make date valid
+    const addEmployerBtn = screen.getByRole("button", {
+      name: "+ Add employer",
+    });
+    fireEvent.click(addEmployerBtn);
+
+    await waitFor(() => {
+      expect(screen.getAllByLabelText(/Employer name/).length).toBe(2);
+    });
+
+    const secondEmployerStartDate = screen.getByTestId("employer-1-start_date");
+    const secondEmployerEndDate = screen.getByTestId("employer-1-end_date");
+
+    fireEvent.change(screen.getAllByLabelText(/Employer name/i)[1], {
+      target: { value: "Goodlord" },
+    });
+    fireEvent.change(secondEmployerStartDate, {
+      target: { value: "2020-01-01" },
+    });
+    fireEvent.change(secondEmployerEndDate, {
+      target: { value: "2024-12-31" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Please add 3 years of employment history./i)
+      ).not.toBeInTheDocument();
     });
   });
 });

@@ -1,23 +1,44 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import styles from "./ReferenceForm.module.css";
 import SuccessScreen from "./SuccessScreen";
 import FormField from "../FormField/FormField";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { ReferenceFormSchema } from "../../schema/ReferenceFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "../../types/types";
 import { convertReferenceFormData } from "../../lib/ReferenceFormHelper";
 import { submitReferenceData } from "../../api/submitReference";
 import { useMutation } from "react-query";
+import { calculateInvalidEmployerDates } from "../../utils/calculateInvalidEmploymentDates";
 
 export default function ReferenceForm() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
-  const { register, handleSubmit, formState, reset } = useForm<FormData>({
-    resolver: zodResolver(ReferenceFormSchema),
-    mode: "onTouched",
+  const defaultEmployer = {
+    name: "",
+    start_date: "",
+    end_date: "",
+  };
+  const { register, handleSubmit, formState, reset, control, watch } =
+    useForm<FormData>({
+      resolver: zodResolver(ReferenceFormSchema),
+      mode: "onTouched",
+      defaultValues: {
+        employer: [defaultEmployer],
+      },
+    });
+
+  const {
+    fields: employers,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: "employer",
   });
 
   const { isValid, errors, touchedFields } = formState;
+
+  const watchedEmployerFields = watch("employer");
 
   const { isLoading, mutate, isError } = useMutation(submitReferenceData, {
     onSuccess: (data) => {
@@ -36,6 +57,10 @@ export default function ReferenceForm() {
     mutate(formattedData);
     console.log("Formatted data: ", formattedData);
   }
+
+  const isEmploymentRangeInvalid = calculateInvalidEmployerDates(
+    watchedEmployerFields
+  );
 
   return showSuccess ? (
     <SuccessScreen onClose={() => setShowSuccess(false)} />
@@ -90,41 +115,71 @@ export default function ReferenceForm() {
 
         <div className={styles.formSection}>
           <b>Employer</b>
-          <FormField
-            className="full-width"
-            type="text"
-            id="employer.0.name"
-            name="employer.0.name"
-            labelText="Employer name"
-            required
-            register={register}
-            error={errors.employer?.[0]?.name}
-            touched={touchedFields.employer?.[0].name}
-          />
 
-          <div className={styles.inputGroup}>
-            <FormField
-              className={styles.dateField}
-              type="date"
-              id="employer.0.start_date"
-              name="employer.0.start_date"
-              labelText="Employment start date"
-              required
-              register={register}
-              error={errors.employer?.[0]?.start_date}
-              touched={touchedFields.employer?.[0].start_date}
-            />
-            <FormField
-              className={styles.dateField}
-              type="date"
-              id="employer.0.end_date"
-              name="employer.0.end_date"
-              labelText="Employment end date"
-              register={register}
-              error={errors.employer?.[0]?.end_date}
-              touched={touchedFields.employer?.[0].end_date}
-            />
-          </div>
+          {employers.map((employer, index) => {
+            const employerTouchedFields = touchedFields.employer?.[index] ?? {};
+
+            return (
+              <Fragment key={employer.id}>
+                <FormField
+                  className="full-width"
+                  type="text"
+                  id={`employer.${index}.name`}
+                  name={`employer.${index}.name`}
+                  labelText="Employer name"
+                  required
+                  register={register}
+                  error={errors.employer?.[index]?.name}
+                  touched={employerTouchedFields.name}
+                />
+
+                <div className={styles.inputGroup}>
+                  <FormField
+                    data-testid={`employer-${index}-start_date`}
+                    className={styles.dateField}
+                    type="date"
+                    id={`employer.${index}.start_date`}
+                    name={`employer.${index}.start_date`}
+                    labelText="Employment start date"
+                    required
+                    register={register}
+                    error={errors.employer?.[index]?.start_date}
+                    touched={employerTouchedFields.start_date}
+                  />
+                  <FormField
+                    data-testid={`employer-${index}-end_date`}
+                    className={styles.dateField}
+                    type="date"
+                    id={`employer.${index}.end_date`}
+                    name={`employer.${index}.end_date`}
+                    labelText="Employment end date"
+                    register={register}
+                    error={errors.employer?.[index]?.end_date}
+                    touched={employerTouchedFields.end_date}
+                  />
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className={styles.removeBtn}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              </Fragment>
+            );
+          })}
+
+          <button type="button" onClick={() => append(defaultEmployer)}>
+            + Add employer
+          </button>
+
+          {isEmploymentRangeInvalid && (
+            <p className={styles.error}>
+              Please add 3 years of employment history.
+            </p>
+          )}
         </div>
 
         <div className={styles.formSection}>
@@ -166,7 +221,7 @@ export default function ReferenceForm() {
           <button
             className={styles.submitBtn}
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || isEmploymentRangeInvalid}
           >
             {isLoading && <span className="loader"></span>}
             Submit

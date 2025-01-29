@@ -14,6 +14,7 @@ export type FormFieldProps = {
   error: FieldError | undefined;
   touched?: boolean;
   options?: string[];
+  "data-testid"?: string;
 };
 
 export default function FormField({
@@ -27,6 +28,7 @@ export default function FormField({
   error,
   touched,
   options,
+  "data-testid": dataTestId,
 }: FormFieldProps) {
   return (
     <div className={styles.formField}>
@@ -37,6 +39,7 @@ export default function FormField({
 
       {type === "select" ? (
         <select
+          data-testid={dataTestId}
           id={id}
           className={classNames(className, { "input-error": error && touched })}
           {...register(name)}
@@ -49,6 +52,7 @@ export default function FormField({
         </select>
       ) : (
         <input
+          data-testid={dataTestId}
           required={required}
           id={id}
           className={classNames(className, { "input-error": error && touched })}
