@@ -16,15 +16,17 @@ We want you to build a form that captures this information and submits it to our
 reference api endpoint: https://ref-api.goodlord.co/reference/new.
 
 Create a form that collects the following information and submits it to the api:
+
+
 **Personal**
-First name
-Last name
-Current address
+- First name
+- Last name
+- Current address
 
 **Employer**
-Employer name
-Employment start date
-Employment end date (no end date if current employment)
+- Employer name
+- Employment start date
+- Employment end date (no end date if current employment)
 
 ### Live coding challenge (part 2)
 
