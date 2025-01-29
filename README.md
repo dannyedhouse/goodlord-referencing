@@ -31,6 +31,8 @@ Employment end date (no end date if current employment)
 If the employment date range provided is less than 3 years in length, the user should be prompted to provide additional employer details. Add functionality to allow the user to add a new employer field row.
 
 ### API definition
+![image](https://github.com/user-attachments/assets/503f1431-8a45-48e1-bf12-670056169786)
+
 
 ---
 
